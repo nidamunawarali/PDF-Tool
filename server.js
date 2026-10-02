@@ -3,7 +3,8 @@ const path = require('path');
 const multer = require('multer');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+// const port = 3000;
 
 const { mergePDFs } = require('./merge');
 
@@ -22,10 +23,16 @@ app.post('/merge', upload.array('pdfs', 2), async (req, res, next) => {
     path.join(__dirname, req.files[0].path),
     path.join(__dirname, req.files[1].path));
 
-  res.redirect(`http://localhost:3000/static/${d}.pdf`)
+
+  res.redirect(`/static/${d}.pdf`)
+  // res.redirect(`http://localhost:3000/static/${d}.pdf`);
   //res.send({data: req.files})
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`);
+// app.listen(port, () => {
+//   console.log(`Example app listening on port http://localhost:${port}`);
+// });
+
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server running on port ${port}`);
 });
